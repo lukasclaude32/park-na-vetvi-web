@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ item.title }} – Park Na Větvi{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('index') }}">Úvod</a> <span>/</span> <a href="{{ url_for('news_list') }}">Aktuality</a> <span>/</span> {{ item.title }}</div>
+        <h1>{{ item.title }}</h1>
+        <p><time>{{ item.created_at[:10] }}</time></p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <article class="news-detail" style="max-width: 780px; margin: 0 auto;">
+            {% if item.image %}
+            <div class="news-detail-image" style="margin-bottom: 2rem; border-radius: 12px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='images/uploads/' + item.image) }}" alt="{{ item.title }}" style="width: 100%; display: block;">
+            </div>
+            {% endif %}
+            <div class="news-detail-content" style="font-size: 1.05rem; line-height: 1.85; color: var(--c-text);">
+                {{ item.content | replace('\n', '<br>') | safe }}
+            </div>
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--c-border);">
+                <a href="{{ url_for('news_list') }}" class="link-more" style="flex-direction: row-reverse;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(180deg);"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    Zpět na aktuality
+                </a>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

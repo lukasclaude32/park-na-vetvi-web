@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-content">
+        <div class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Hradec Králové
+        </div>
+        <h1>{{ settings.get('site_name', 'Park Na Větvi') }}</h1>
+        <p class="subtitle">{{ settings.get('site_subtitle', '') }}</p>
+        <div class="hero-actions">
+            <a href="{{ url_for('eshop') }}" class="btn btn-primary btn-lg">E-shop</a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-white btn-lg">Zjistit více</a>
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt">
+    <div class="container">
+        <div class="about-preview">
+            <div class="about-preview-img">
+                <img src="{{ url_for('static', filename='images/park/bg_03.jpg') }}" alt="Lanové centrum Park Na Větvi" loading="lazy">
+            </div>
+            <div class="about-preview-text">
+                <h2>{{ settings.get('home_about_title', 'Dobrodružství v korunách stromů') }}</h2>
+                <p>{{ settings.get('about_text', '')[:300] }}{% if settings.get('about_text', '')|length > 300 %}…{% endif %}</p>
+                <a href="{{ url_for('about') }}" class="link-more">
+                    Více o parku
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="features-strip">
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <h3>Bezpečné</h3>
+                <p>Bez lanového jištění, vhodné i pro nejmenší</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <h3>Otevřeno celoročně</h3>
+                <p>Denně {{ settings.get('hours', '9:00 - 19:00') }}</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>Pro celou rodinu</h3>
+                <p>Rodinné výlety, oslavy, skupiny</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <h3>3D bludiště</h3>
+                <p>Tři patra síťových překážek</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem;">
+            <div>
+                <h2 class="section-title mb-0">{{ settings.get('home_instagram_title', 'Sledujte nás') }}</h2>
+                <p class="section-subtitle mb-0" style="margin-top: .3rem;">{{ settings.get('home_instagram_subtitle', '@navetvi_hk na Instagramu') }}</p>
+            </div>
+            <a href="{{ settings.get('instagram_url') or 'https://www.instagram.com/navetvi_hk/' }}" class="link-more" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;margin-right:.3rem;"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                Instagram
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+        <div class="ig-grid">
+            {% if ig_posts %}
+                {% for post in ig_posts %}
+                <a href="{{ post.instagram_url }}" class="ig-item" target="_blank" rel="noopener">
+                    <img src="{{ url_for('static', filename='images/uploads/' + post.image) }}" alt="Instagram Park Na Větvi" loading="lazy">
+                </a>
+                {% endfor %}
+            {% else %}
+                {% for i in range(1, 8) %}
+                <a href="{{ settings.get('instagram_url') or 'https://www.instagram.com/navetvi_hk/' }}" class="ig-item" target="_blank" rel="noopener">
+                    <img src="{{ url_for('static', filename='images/park/ig-' ~ i ~ '.webp') }}" alt="Instagram Park Na Větvi" loading="lazy">
+                </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title text-center">{{ settings.get('home_pricing_title', 'Vstupné') }}</h2>
+        <p class="section-subtitle text-center" style="margin-top: .3rem; margin-bottom: 2.5rem;">{{ settings.get('home_pricing_subtitle', '') }}</p>
+        <div class="pricing-grid">
+            {% for group in pricing_groups %}
+            <div class="pricing-card {% if group.featured %}pricing-card-featured{% endif %}">
+                <div class="pricing-header">
+                    <h3>{{ group.category }}</h3>
+                    <span class="pricing-note">{{ group.category_note or '&nbsp;'|safe }}</span>
+                </div>
+                <ul class="pricing-list">
+                    {% for item in group.prices %}
+                    <li><span>{{ item.label }}</span><strong>{{ item.price }}</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="pricing-info">
+            {% for paragraph in settings.get('pricing_info_text', '').split('\n') %}
+            {% if paragraph %}<p>{{ paragraph }}</p>{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="cta-band">
+    <div class="container">
+        <h2>{{ settings.get('home_cta_title', 'Přijďte si užít dobrodružství') }}</h2>
+        <p>{{ settings.get('hero_text', '') }}</p>
+        <a href="{{ url_for('eshop') }}" class="btn btn-primary btn-lg">{{ settings.get('home_cta_button', 'Navštívit e-shop') }}</a>
+    </div>
+</section>
+{% endblock %}

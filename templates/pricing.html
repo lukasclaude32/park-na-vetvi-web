@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ settings.get('pricing_page_title', 'Vstupné') }} - Park Na Větvi{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('index') }}">Úvod</a> <span>/</span> {{ settings.get('pricing_page_title', 'Vstupné') }}</div>
+        <h1>{{ settings.get('pricing_page_title', 'Vstupné') }}</h1>
+        <p>{{ settings.get('pricing_page_subtitle', '') }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="pricing-grid">
+            {% for group in pricing_groups %}
+            <div class="pricing-card {% if group.featured %}pricing-card-featured{% endif %}">
+                <div class="pricing-header">
+                    <h3>{{ group.category }}</h3>
+                    <span class="pricing-note">{{ group.category_note or '&nbsp;'|safe }}</span>
+                </div>
+                <ul class="pricing-list">
+                    {% for item in group.prices %}
+                    <li><span>{{ item.label }}</span><strong>{{ item.price }}</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pricing-info">
+            {% for paragraph in settings.get('pricing_info_text', '').split('\n') %}
+            {% if paragraph %}<p>{{ paragraph }}</p>{% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-2">
+            <a href="{{ url_for('eshop') }}" class="btn btn-primary btn-lg">{{ settings.get('pricing_button_text', 'Koupit vstupenky online') }}</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

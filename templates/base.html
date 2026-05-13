@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ settings.get('site_subtitle', '') }}">
+    <title>{% block title %}{{ settings.get('site_name', 'Park Na Větvi') }}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="site-header" id="header">
+    <div class="container header-inner">
+        <a href="{{ url_for('index') }}" class="logo">
+            <img src="{{ url_for('static', filename='images/logo/logo-dark.svg') }}" alt="Park Na Větvi">
+        </a>
+        <nav class="main-nav" id="mainNav">
+            <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Úvod</a>
+            <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">O parku</a>
+            <a href="{{ url_for('news_list') }}" class="nav-link {% if request.endpoint == 'news_list' %}active{% endif %}">Aktuality</a>
+            <a href="{{ url_for('pricing') }}" class="nav-link {% if request.endpoint == 'pricing' %}active{% endif %}">Vstupné</a>
+            <a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">Kontakt</a>
+            <a href="{{ url_for('eshop') }}" class="nav-cta">E-shop</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="logo-text">Park Na Větvi</span>
+                <p>{{ settings.get('site_subtitle', '') }}</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigace</h4>
+                <a href="{{ url_for('index') }}">Úvod</a>
+                <a href="{{ url_for('about') }}">O parku</a>
+                <a href="{{ url_for('news_list') }}">Aktuality</a>
+                <a href="{{ url_for('pricing') }}">Vstupné</a>
+                <a href="{{ url_for('contact') }}">Kontakt</a>
+            </div>
+            <div class="footer-contact">
+                <h4>Kontakt</h4>
+                <p>{{ settings.get('email', '') }}</p>
+                <p>{{ settings.get('phone', '') }}</p>
+                <p>{{ settings.get('address', '') }}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>{{ settings.get('company_name', '') }} | IČO: {{ settings.get('ico', '') }}</p>
+            <p>Park Na Větvi byl vytvořen za přispění prostředků státního rozpočtu ČR z programu Ministerstva pro místní rozvoj.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="yVLkIhCv5c5Ptyx5GJldW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Nastavení{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1>Nastavení</h1>
+</div>
+
+<div class="admin-card">
+    <h3>Informace o parku</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label for="site_subtitle">Podtitulek webu</label>
+            <input type="text" id="site_subtitle" name="site_subtitle" class="form-control" value="{{ settings.get('site_subtitle', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="hero_text">Text v hlavičce (hero)</label>
+            <textarea id="hero_text" name="hero_text" class="form-control" rows="3">{{ settings.get('hero_text', '') }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="about_text">Text „O parku"</label>
+            <textarea id="about_text" name="about_text" class="form-control" rows="6">{{ settings.get('about_text', '') }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Telefon</label>
+            <input type="text" id="phone" name="phone" class="form-control" value="{{ settings.get('phone', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ settings.get('email', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="address">Adresa</label>
+            <input type="text" id="address" name="address" class="form-control" value="{{ settings.get('address', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="hours">Otevírací doba</label>
+            <input type="text" id="hours" name="hours" class="form-control" value="{{ settings.get('hours', '') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="eshop_url">Odkaz na e-shop (vstupenky)</label>
+            <input type="url" id="eshop_url" name="eshop_url" class="form-control" value="{{ settings.get('eshop_url', '') }}" placeholder="https://...">
+        </div>
+
+        <div class="form-group">
+            <label for="facebook_url">Facebook (odkaz)</label>
+            <input type="url" id="facebook_url" name="facebook_url" class="form-control" value="{{ settings.get('facebook_url', '') }}" placeholder="https://facebook.com/...">
+        </div>
+
+        <div class="form-group">
+            <label for="instagram_url">Instagram (odkaz na profil)</label>
+            <input type="url" id="instagram_url" name="instagram_url" class="form-control" value="{{ settings.get('instagram_url', '') }}" placeholder="https://instagram.com/...">
+        </div>
+
+        <div class="form-group" style="border-top: 1px solid var(--c-border-light); padding-top: 1.5rem; margin-top: 1.5rem;">
+            <label for="instagram_token">Instagram API Token</label>
+            <input type="text" id="instagram_token" name="instagram_token" class="form-control" value="{{ settings.get('instagram_token', '') }}" placeholder="Vložte long-lived access token">
+            <p style="font-size: .78rem; color: var(--c-text-lighter); margin-top: .4rem; line-height: 1.6;">
+                Po vložení platného long-lived tokenu se příspěvky z Instagramu automaticky stahují a zobrazují na webu.
+                Web feed obnovuje jednou za hodinu a token se pokouší průběžně prodlužovat.<br>
+                <strong>Jak získat token:</strong> přes Meta Developers vytvořte aplikaci s produktem Instagram API with Instagram Login,
+                přihlaste Instagram účet, povolte přístup k médiím účtu a vložte sem long-lived access token.
+            </p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Uložit nastavení</button>
+    </form>
+</div>
+
+<div class="admin-card">
+    <h3>Změna hesla</h3>
+    <form method="POST" action="{{ url_for('admin_change_password') }}">
+        <div class="form-group">
+            <label for="old_password">Staré heslo</label>
+            <input type="password" id="old_password" name="old_password" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_password">Nové heslo</label>
+            <input type="password" id="new_password" name="new_password" class="form-control" required minlength="6">
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Potvrzení nového hesla</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" required minlength="6">
+        </div>
+
+        <button type="submit" class="btn btn-secondary">Změnit heslo</button>
+    </form>
+</div>
+{% endblock %}

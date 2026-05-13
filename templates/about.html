@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}{{ settings.get('about_page_title', 'O parku') }} - Park Na Větvi{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('index') }}">Úvod</a> <span>/</span> {{ settings.get('about_page_title', 'O parku') }}</div>
+        <h1>{{ settings.get('about_page_title', 'O parku') }}</h1>
+        <p>{{ settings.get('about_page_subtitle', '') }}</p>
+    </div>
+</section>
+
+<section class="section section-alt">
+    <div class="container">
+        <div class="about-preview">
+            <div class="about-content">
+                <p>{{ settings.get('about_text', '') }}</p>
+                {% if settings.get('about_intro_extra') %}
+                <p>{{ settings.get('about_intro_extra') }}</p>
+                {% endif %}
+            </div>
+            <div class="about-preview-img">
+                <img src="{{ url_for('static', filename='images/park/hero-bg.jpg') }}" alt="Děti na síťovém hřišti" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">{{ settings.get('about_map_title', 'Mapa areálu') }}</h2>
+        <p class="section-subtitle">{{ settings.get('about_map_subtitle', '') }}</p>
+        <figure class="about-illustration">
+            <img src="{{ url_for('static', filename='images/park/areal-ilustrace.png') }}" alt="Ilustrace areálu Park Na Větvi">
+            <figcaption>Schéma areálu Park Na Větvi</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="section-title">{{ settings.get('about_gallery_title', 'Galerie') }}</h2>
+        <p class="section-subtitle">{{ settings.get('about_gallery_subtitle', '') }}</p>
+        <div class="about-gallery">
+            {% for image in gallery %}
+            <img src="{{ url_for('static', filename='images/' + image.image) }}" alt="{{ image.alt or image.title or 'Park Na Větvi' }}" loading="lazy">
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">{{ settings.get('about_info_title', 'Praktické informace') }}</h2>
+        <p class="section-subtitle">{{ settings.get('about_info_subtitle', '') }}</p>
+        <div class="features-strip">
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <h3>Otevírací doba</h3>
+                <p>Denně {{ settings.get('hours', '9:00 - 19:00') }}</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div>
+                <h3>Platba</h3>
+                <p>Hotově i platební kartou</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <h3>Bez jištění</h3>
+                <p>Bezpečné, není potřeba úvazek</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                <h3>Psi vítáni</h3>
+                <p>Čtyřnozí kamarádi jsou u nás vítáni</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-band">
+    <div class="container">
+        <h2>{{ settings.get('about_cta_title', '') }}</h2>
+        <p>{{ settings.get('about_cta_text', '') }}</p>
+        <a href="{{ url_for('eshop') }}" class="btn btn-primary btn-lg">E-shop</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Upravit fotku{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1>Upravit fotku</h1>
+    <a href="{{ url_for('admin_gallery') }}" class="btn btn-secondary btn-sm">Zpět do galerie</a>
+</div>
+
+<div class="admin-card">
+    <form method="POST" enctype="multipart/form-data">
+        <img src="{{ url_for('static', filename='images/' + image.image) }}" alt="{{ image.alt or image.title }}" class="image-preview" style="max-width: 260px;">
+        <div class="form-grid-2" style="margin-top: 1rem;">
+            <div class="form-group">
+                <label for="title">Název</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ image.title or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="sort_order">Pořadí</label>
+                <input type="number" id="sort_order" name="sort_order" class="form-control" value="{{ image.sort_order }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="alt">Alt text / popis</label>
+            <input type="text" id="alt" name="alt" class="form-control" value="{{ image.alt or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="image">Nahradit fotku</label>
+            <input type="file" id="image" name="image" class="form-control" accept="image/*">
+        </div>
+        <label class="form-check" style="margin-bottom: 1rem;">
+            <input type="checkbox" name="published" {% if image.published %}checked{% endif %}>
+            <span>Zobrazit na webu</span>
+        </label>
+        <button type="submit" class="btn btn-primary">Uložit fotku</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Přehled{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1>Přehled</h1>
+    <a href="{{ url_for('admin_news_create') }}" class="btn btn-primary btn-sm">+ Nová novinka</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h4>Celkem novinek</h4>
+        <div class="stat-value">{{ news|length }}</div>
+    </div>
+    <div class="stat-card">
+        <h4>Publikovaných</h4>
+        <div class="stat-value">{{ news|selectattr('published', 'equalto', 1)|list|length }}</div>
+    </div>
+    <div class="stat-card">
+        <h4>Konceptů</h4>
+        <div class="stat-value">{{ news|selectattr('published', 'equalto', 0)|list|length }}</div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <h3>Novinky</h3>
+    {% if news %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Obrázek</th>
+                <th>Název</th>
+                <th>Datum</th>
+                <th>Stav</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in news %}
+            <tr>
+                <td>
+                    {% if item.image %}
+                    <img src="{{ url_for('static', filename='images/uploads/' + item.image) }}" class="news-thumb" alt="">
+                    {% else %}
+                    <span style="color: var(--gray-400);">—</span>
+                    {% endif %}
+                </td>
+                <td><strong>{{ item.title }}</strong></td>
+                <td>{{ item.created_at[:10] }}</td>
+                <td>
+                    {% if item.published %}
+                    <span class="badge badge-success">Publikováno</span>
+                    {% else %}
+                    <span class="badge badge-warning">Koncept</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="actions">
+                        <a href="{{ url_for('admin_news_edit', news_id=item.id) }}" class="btn btn-secondary btn-sm">Upravit</a>
+                        <form method="POST" action="{{ url_for('admin_news_delete', news_id=item.id) }}" onsubmit="return confirm('Opravdu smazat tuto novinku?');" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted">Zatím nemáte žádné novinky. <a href="{{ url_for('admin_news_create') }}">Vytvořte první novinku</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

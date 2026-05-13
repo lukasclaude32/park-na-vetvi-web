@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Aktuality – Park Na Větvi{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('index') }}">Úvod</a> <span>/</span> Aktuality</div>
+        <h1>Aktuality</h1>
+        <p>Novinky, akce a události v Parku Na Větvi</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if news %}
+        <div class="news-grid">
+            {% for item in news %}
+            <article class="news-card">
+                <a href="{{ url_for('news_detail', news_id=item.id) }}" class="news-card-link">
+                    {% if item.image %}
+                    <div class="news-card-image">
+                        <img src="{{ url_for('static', filename='images/uploads/' + item.image) }}" alt="{{ item.title }}" loading="lazy">
+                    </div>
+                    {% endif %}
+                    <div class="news-card-body">
+                        <time class="news-date">{{ item.created_at[:10] }}</time>
+                        <h3 class="news-card-title">{{ item.title }}</h3>
+                        <p class="news-card-text">{{ item.content[:200] }}{% if item.content|length > 200 %}…{% endif %}</p>
+                        <span class="link-more">Číst více <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-muted" style="padding: 3rem 0;">Zatím zde nejsou žádné aktuality.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Instagram{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1>Instagram</h1>
+</div>
+
+<div class="admin-card" style="margin-bottom: 2rem;">
+    <h3>Automaticky stahovaný feed</h3>
+    <p style="color: var(--c-text-light); line-height: 1.7; margin: .6rem 0 1.4rem;">
+        Web si jednou za hodinu stáhne poslední příspěvky z Instagramu přes oficiální Instagram API.
+        Každý obrázek na hlavní stránce pak odkazuje přímo na konkrétní příspěvek.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="border: 1px solid var(--c-border-light); border-radius: 8px; padding: 1rem;">
+            <strong>Profil</strong>
+            <p style="font-size: .88rem; color: var(--c-text-light); margin-top: .35rem;">
+                <a href="{{ settings.get('instagram_url') or 'https://www.instagram.com/navetvi_hk/' }}" target="_blank" rel="noopener">
+                    {{ settings.get('instagram_url') or 'https://www.instagram.com/navetvi_hk/' }}
+                </a>
+            </p>
+        </div>
+        <div style="border: 1px solid var(--c-border-light); border-radius: 8px; padding: 1rem;">
+            <strong>API token</strong>
+            <p style="font-size: .88rem; color: var(--c-text-light); margin-top: .35rem;">
+                {% if settings.get('instagram_token') %}Nastavený{% else %}Zatím chybí{% endif %}
+            </p>
+        </div>
+        <div style="border: 1px solid var(--c-border-light); border-radius: 8px; padding: 1rem;">
+            <strong>Stažené příspěvky</strong>
+            <p style="font-size: .88rem; color: var(--c-text-light); margin-top: .35rem;">{{ posts|length }}</p>
+        </div>
+    </div>
+
+    <form method="POST" style="display: flex; gap: .8rem; flex-wrap: wrap;">
+        <button type="submit" class="btn btn-primary">Obnovit Instagram feed</button>
+        <a href="{{ url_for('admin_settings') }}" class="btn btn-secondary">Nastavit token</a>
+    </form>
+</div>
+
+{% if posts %}
+<div class="admin-card">
+    <h3 style="margin-bottom: 1rem;">Aktuálně zobrazené příspěvky</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem;">
+        {% for post in posts %}
+        <a href="{{ post.instagram_url }}" target="_blank" rel="noopener" style="display: block;">
+            <img src="{{ url_for('static', filename='images/uploads/' + post.image) }}" alt="Instagram" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid var(--c-border-light);">
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="admin-card">
+    <p style="color: var(--c-text-lighter); padding: 1rem 0;">
+        Zatím nejsou stažené žádné příspěvky. Na webu se dočasně zobrazují výchozí obrázky.
+        Jakmile vložíte platný token a feed se obnoví, web začne používat živý Instagram.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Obsah webu{% endblock %}
+
+{% macro field(name, label, rows=1) %}
+<div class="form-group">
+    <label for="{{ name }}">{{ label }}</label>
+    {% if rows > 1 %}
+    <textarea id="{{ name }}" name="{{ name }}" class="form-control" rows="{{ rows }}">{{ settings.get(name, '') }}</textarea>
+    {% else %}
+    <input type="text" id="{{ name }}" name="{{ name }}" class="form-control" value="{{ settings.get(name, '') }}">
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1>Obsah webu</h1>
+</div>
+
+<form method="POST">
+    <div class="admin-card">
+        <h3>Hlavní stránka</h3>
+        {{ field('site_subtitle', 'Podtitulek v hero sekci', 2) }}
+        {{ field('hero_text', 'Krátký CTA text', 3) }}
+        {{ field('home_about_title', 'Nadpis sekce O parku') }}
+        {{ field('home_instagram_title', 'Nadpis Instagram sekce') }}
+        {{ field('home_instagram_subtitle', 'Podtitulek Instagram sekce') }}
+        {{ field('home_pricing_title', 'Nadpis ceníku na homepage') }}
+        {{ field('home_pricing_subtitle', 'Podtitulek ceníku na homepage') }}
+        {{ field('home_cta_title', 'Spodní CTA nadpis') }}
+        {{ field('home_cta_button', 'Text tlačítka ve spodním CTA') }}
+    </div>
+
+    <div class="admin-card">
+        <h3>Stránka O parku</h3>
+        {{ field('about_page_title', 'Nadpis stránky') }}
+        {{ field('about_page_subtitle', 'Podtitulek stránky', 2) }}
+        {{ field('about_text', 'Hlavní text O parku', 8) }}
+        {{ field('about_intro_extra', 'Doplňkový text pod hlavním textem', 4) }}
+        {{ field('about_map_title', 'Nadpis mapy areálu') }}
+        {{ field('about_map_subtitle', 'Podtitulek mapy areálu', 2) }}
+        {{ field('about_gallery_title', 'Nadpis galerie') }}
+        {{ field('about_gallery_subtitle', 'Podtitulek galerie', 2) }}
+        {{ field('about_info_title', 'Nadpis praktických informací') }}
+        {{ field('about_info_subtitle', 'Podtitulek praktických informací', 2) }}
+        {{ field('about_cta_title', 'CTA nadpis') }}
+        {{ field('about_cta_text', 'CTA text', 2) }}
+    </div>
+
+    <div class="admin-card">
+        <h3>Stránka Vstupné</h3>
+        {{ field('pricing_page_title', 'Nadpis stránky') }}
+        {{ field('pricing_page_subtitle', 'Podtitulek stránky', 2) }}
+        {{ field('pricing_info_text', 'Text pod ceníkem', 5) }}
+        {{ field('pricing_button_text', 'Text tlačítka') }}
+    </div>
+
+    <div class="admin-card">
+        <h3>Kontakt a e-shop</h3>
+        {{ field('contact_page_title', 'Nadpis kontaktu') }}
+        {{ field('contact_page_subtitle', 'Podtitulek kontaktu', 2) }}
+        {{ field('contact_transport', 'Text dopravy', 2) }}
+        {{ field('contact_operator_title', 'Nadpis provozovatele') }}
+        {{ field('contact_grant_text', 'Dotační / doplňkový text', 4) }}
+        {{ field('eshop_page_title', 'Nadpis e-shop stránky') }}
+        {{ field('eshop_page_subtitle', 'Podtitulek e-shop stránky', 2) }}
+        {{ field('eshop_soon_title', 'Nadpis Již brzy') }}
+        {{ field('eshop_soon_text', 'Text Již brzy', 3) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Uložit obsah</button>
+</form>
+{% endblock %}
